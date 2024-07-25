@@ -5,6 +5,15 @@ import PackageDescription
 
 let package = Package(
     name: "github-retrieve",
+    platforms: [
+        .macOS(.v13),
+    ],
+    products: [
+        .executable(
+            name: "github-retrieve",
+            targets: ["github-retrieve"]
+        ),
+    ],
     dependencies: [
         .package(
             url: "https://github.com/apple/swift-argument-parser.git",

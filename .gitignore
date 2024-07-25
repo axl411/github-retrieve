@@ -83,3 +83,6 @@ xcuserdata/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+.swiftpm/
+.vscode/
