@@ -65,12 +65,14 @@ final class Retriever {
 
     private func retrieveContent(for file: File) async throws -> String {
         """
-        ℹ️ File path: \(file.path)
-        ---
-        ```swift
+        ⬇️
+        File path: \(file.path)
+        File url: \(file.htmlURL)
+        File contents:
+        ```
         \(try await githubClient.downloadRawContent(for: file))
         ```
-
+        ⬆️
         """
     }
 }

@@ -48,4 +48,3 @@ struct Command: AsyncParsableCommand {
         try await retriever.retrieve(repo: repo, paths: paths)
     }
 }
-
