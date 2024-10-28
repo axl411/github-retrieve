@@ -20,13 +20,25 @@ struct GithubClient {
             "Authorization": "Bearer \(configurations.githubToken)",
         ]
         let (data, _) = try await urlSession.data(for: request)
-
-        do {
-            let content = try JSONDecoder().decode(Content.self, from: data)
+        let decoder = JSONDecoder()
+        let singleFileContent = resultify {
+            let content = try decoder.decode(Content.self, from: data)
             return [content]
         }
-        catch {
-            return try JSONDecoder().decode([Content].self, from: data)
+        let fileListContent = resultify {
+            try decoder.decode([Content].self, from: data)
+        }
+
+        if let contents = (try? singleFileContent.get()) ?? (try? fileListContent.get()) {
+            return contents
+        }
+        else if let response = try? decoder.decode(RemoteResponse.self, from: data),
+                response.status != 200
+        {
+            throw response
+        }
+        else {
+            return []
         }
     }
 

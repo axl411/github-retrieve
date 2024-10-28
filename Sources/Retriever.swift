@@ -30,13 +30,14 @@ final class Retriever {
     }
 
     private func retrieve(locations: [ContentLocation]) async throws {
-        await withThrowingTaskGroup(of: Void.self) { group in
+        try await withThrowingTaskGroup(of: Void.self) { group in
             for location in locations {
                 group.addTask { [self] in
                     let contents = try await githubClient.downloadContents(for: location)
                     try await retrieve(contents: contents)
                 }
             }
+            try await group.waitForAll()
         }
     }
 
